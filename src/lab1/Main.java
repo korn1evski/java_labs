@@ -1,10 +1,17 @@
 package lab1;
 
+import lab1.entity.Student;
+import lab1.enums.StudyField;
+import lab1.helpers.UserInputHelper;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        UniProgram uniProgram = new UniProgram();
+        UniProgram uniProgram = new UniProgram("faculties.txt");
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            uniProgram.saveDataToFile();
+        }));
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -31,10 +38,11 @@ public class Main {
             String emailTemp;
             int enrolYearTemp;
             String[] splitBirthTemp;
-            String facultyAbbreviation;
             String facultyNameTemp;
             String facultyAbbreviationTemp;
             String studyFieldStrTemp;
+            StudyField studyFieldTemp;
+            Student studentTemp;
 
             switch (choice) {
                 case 1:
@@ -42,73 +50,43 @@ public class Main {
                     firstNameTemp = scanner.nextLine();
                     System.out.print("Enter student last name: ");
                     lastNameTemp = scanner.nextLine();
-                    System.out.print("Enter student email: ");
-                    emailTemp = scanner.nextLine();
-                    System.out.print("Enter student year of enrollment: ");
-                    enrolYearTemp = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("Enter birthday in example format (2.2.2022): ");
-                    splitBirthTemp = scanner.nextLine().split("\\.");
+                    emailTemp = UserInputHelper.promptForValidEmail("Enter student email: ", scanner);
+                    enrolYearTemp = UserInputHelper.promptForValidInteger("Enter student year of enrollment: ", scanner);
+                    splitBirthTemp = UserInputHelper.promptForBirthday("Enter birthday in example format (2.2.2002): ", scanner);
 
+                    studentTemp = new Student(firstNameTemp, lastNameTemp, emailTemp, enrolYearTemp, Integer.parseInt(splitBirthTemp[2]), Integer.parseInt(splitBirthTemp[1]), Integer.parseInt(splitBirthTemp[0]));
 
-                    // Create a Student object
-                    Student student = new Student(firstNameTemp, lastNameTemp, emailTemp, enrolYearTemp, Integer.parseInt(splitBirthTemp[2]), Integer.parseInt(splitBirthTemp[1]), Integer.parseInt(splitBirthTemp[0])); // Replace null with actual dates
-
-                    // Prompt for faculty abbreviation
                     System.out.print("Enter faculty abbreviation: ");
-                    facultyAbbreviation = scanner.nextLine();
-
-
-                    for (Faculty faculty : uniProgram.getFaculties()) {
-                        if (faculty.getAbbreviation().equalsIgnoreCase(facultyAbbreviation)) {
-                            faculty.addStudent(student);
-                            System.out.print("Student added to the faculty successfully");
-                            break;
-                        }
-                    }
+                    facultyAbbreviationTemp = scanner.nextLine();
+                    uniProgram.assignStudentToFaculty(facultyAbbreviationTemp, studentTemp);
                     break;
 
                 case 2:
                     System.out.println("Enter faculty abbreviation: ");
-                    facultyAbbreviation = scanner.nextLine();
+                    facultyAbbreviationTemp = scanner.nextLine();
                     System.out.print("Enter student's email in order to graduate him: ");
                     emailTemp = scanner.nextLine();
-                    outerLoop:
-                    for (Faculty faculty: uniProgram.getFaculties()){
-                        if(faculty.getAbbreviation().equalsIgnoreCase(facultyAbbreviation)){
-                            for(Student studentTemp : faculty.getStudents())
-                                if(studentTemp.getEmail().equalsIgnoreCase(emailTemp)) {
-                                    studentTemp.setGraduationDate();
-                                    System.out.println("Student graduated successfully");
-                                    break outerLoop;
-                                }
-                        }
-                    }
+                    uniProgram.graduateStudent(facultyAbbreviationTemp, emailTemp);
                     break;
 
                 case 3:
                     System.out.print("Enter faculty abbreviation: ");
-                    facultyAbbreviation = scanner.nextLine();
-                    uniProgram.displayCurrentEnrolledStudents(facultyAbbreviation);
+                    facultyAbbreviationTemp = scanner.nextLine();
+                    uniProgram.displayCurrentEnrolledStudents(facultyAbbreviationTemp);
                     break;
 
                 case 4:
                     System.out.print("Enter faculty abbreviation: ");
-                    facultyAbbreviation = scanner.nextLine();
-                    uniProgram.displayGraduates(facultyAbbreviation);
+                    facultyAbbreviationTemp = scanner.nextLine();
+                    uniProgram.displayGraduates(facultyAbbreviationTemp);
                     break;
 
                 case 5:
                     System.out.print("Enter faculty abbreviation: ");
-                    facultyAbbreviation = scanner.nextLine();
+                    facultyAbbreviationTemp = scanner.nextLine();
                     System.out.println("Enter student's email: ");
                     emailTemp = scanner.nextLine();
-                    for(Faculty faculty: uniProgram.getFaculties()){
-                        if(faculty.getAbbreviation().equalsIgnoreCase(facultyAbbreviation)) {
-                            faculty.containsStudent(emailTemp);
-                            break;
-                        }
-                    }
+                    uniProgram.doesStudentBelongToFaculty(facultyAbbreviationTemp, emailTemp);
                     break;
 
                 case 6:
@@ -116,12 +94,9 @@ public class Main {
                     facultyNameTemp = scanner.nextLine();
                     System.out.print("Enter faculty abbreviation: ");
                     facultyAbbreviationTemp = scanner.nextLine();
-                    System.out.print("Enter study field (e.g., SOFTWARE_ENGINEERING): ");
-                    studyFieldStrTemp = scanner.nextLine();
-                    StudyField studyFieldTemp = StudyField.valueOf(studyFieldStrTemp);
+                    studyFieldTemp = UserInputHelper.promptForStudyField("Enter study field (e.g., SOFTWARE_ENGINEERING): ", scanner);
 
                     uniProgram.createFaculty(facultyNameTemp, facultyAbbreviationTemp, studyFieldTemp);
-                    System.out.println("Faculty created.");
                     break;
 
                 case 7:

@@ -1,0 +1,33 @@
+[2023-10-04 19:17:47] faf was created
+[2023-10-04 19:20:58] Faculty with abbreviation fsdf wasn't found
+[2023-10-04 19:27:51] bdg corn was added to the faculty with abbreviation faf
+[2023-10-04 19:29:07] fdsafd dsf was added to the faculty with abbreviation faf
+[2023-10-04 19:32:29] Faculty with abbreviation sdfsdfdsf wasn't found
+[2023-10-04 19:32:47] bdg corn is not graduate of faf
+[2023-10-04 19:32:47] Student with email brils@gmail.comwasn't found in faculty faf
+[2023-10-04 19:32:47] Faculty with abbreviation faf wasn't found
+[2023-10-04 19:34:39] corn bogd was added to the faculty with abbreviation faf
+[2023-10-04 19:35:22] fdsafd dsf is not graduate of faf
+[2023-10-04 19:35:22] Student with email dsfdsfwasn't found in faculty faf
+[2023-10-04 19:35:48] bdg corn is not graduate of faf
+[2023-10-04 19:35:48] corn bogd is not graduate of faf
+[2023-10-04 19:35:48] Student with email brils@gmail.comwasn't found in faculty faf
+[2023-10-04 19:36:11] bdg corn is not graduate of faf
+[2023-10-04 19:36:11] corn bogd is not graduate of faf
+[2023-10-04 19:36:11] Student with email brils@gmail.comwasn't found in faculty faf
+[2023-10-04 19:36:54] sdf sdf was added to the faculty with abbreviation faf
+[2023-10-04 19:37:00] sdf sdf is not graduate of faf
+[2023-10-04 19:37:00] Student with email btwasn't found in faculty faf
+[2023-10-04 19:57:26] corn bogdan was added to the faculty with abbreviation faf
+[2023-10-04 20:16:15] sdf sdf was added to the faculty with abbreviation faf
+[2023-10-04 21:05:09] faf was created
+[2023-10-04 21:05:20] Faculty with name faf was already created
+[2023-10-04 21:07:01] Faculty with name faf was already created
+[2023-10-04 21:07:30] Faculty with abbreviation sdfdf wasn't found
+[2023-10-04 21:08:01] corn bogdan was added to the faculty with abbreviation faf
+[2023-10-04 21:08:33] Student with emailbrils@gmail.com already exists
+[2023-10-04 21:12:31] sdf sdf was added to the faculty with abbreviation faf
+[2023-10-04 21:14:36] sdf dsf was added to the faculty with abbreviation faf
+[2023-10-04 21:19:37] Faculty with abbreviation faf wasn't found
+[2023-10-04 21:20:07] faf was created
+[2023-10-04 21:20:31] corn bogdan was added to the faculty with abbreviation faf
