@@ -1,9 +1,12 @@
-package lab1;
+package lab1.entity;
 
-import java.util.Date;
+import lab1.enums.StudyField;
+import lab1.loggers.CustomLogger;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class Faculty {
+public class Faculty implements Serializable {
     private String name;
     private String abbreviation;
     private List<Student> students;
@@ -48,21 +51,29 @@ public class Faculty {
         this.studyField = studyField;
     }
 
-    public void addStudent(Student student) {
+    public boolean addStudent(Student student) {
+        for(Student studentTemp : students)
+            if(student.getEmail().equalsIgnoreCase(studentTemp.getEmail()))
+                return false;
+
         students.add(student);
+        return true;
     }
 
     public void removeStudent(Student student) {
         students.remove(student);
     }
 
-    public void graduateStudent(String email) {
+    public void graduateStudent(String email, CustomLogger logger) {
         for (Student student : students) {
             if (student.getEmail().equalsIgnoreCase(email)) {
                student.setGraduationDate();
+               logger.log(student.getLastName() + " " + student.getFirstName() + " is not graduate of " + name);
+               return;
             }
         }
         System.out.println("Student not found in this faculty.");
+        logger.log( "Student with email " + email + " wasn't found in faculty " + name);
     }
 
     public boolean containsStudent(String email) {
@@ -80,7 +91,7 @@ public class Faculty {
         boolean hasEnrolled = false;
         for(Student student : students){
             if(student.getGraduationDate() == null) {
-                System.out.println(student.toString());
+                System.out.print(student.toString());
                 hasEnrolled = true;
             }
         }

@@ -1,20 +1,53 @@
 package lab1;
 
+import lab1.entity.Faculty;
+import lab1.entity.Student;
+import lab1.enums.StudyField;
+import lab1.loggers.CustomLogger;
+
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 
 public class UniProgram {
     private List<Faculty> faculties;
+    private String filePath;
 
-    public UniProgram(List<Faculty> faculties) {
-        this.faculties = faculties;
+    private CustomLogger logger;
+
+    public UniProgram(String fileName) {
+        this.filePath = "src" + File.separator + "lab1" + File.separator + "files" + File.separator+ "faculties.txt";
+        File file = new File(filePath);
+        if (file.exists() && file.length() == 0)
+            faculties = new ArrayList<>();
+        else {
+            loadDataFromFile();
+            if(faculties == null)
+                faculties = new ArrayList<>();
+        }
+        logger = new CustomLogger("log.txt");
     }
 
     public List<Faculty> getFaculties() {
         return faculties;
     }
+
+    public void saveDataToFile() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+            oos.writeObject(faculties);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadDataFromFile() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            faculties = (List<Faculty>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void displayFaculties(){
         for(Faculty faculty : faculties)
@@ -40,32 +73,46 @@ public class UniProgram {
         this.faculties = faculties;
     }
 
-    public UniProgram(){
-        this(new ArrayList<Faculty>());
-    }
 
     public void createFaculty(String name, String abbreviation, StudyField studyField) {
+        for(Faculty facultyTemp: faculties){
+            if(facultyTemp.getName().equalsIgnoreCase(name)){
+                logger.log("Faculty with name " + name + " was already created");
+                System.out.println("Faculty with name " +  name + " was already created");
+                return;
+            }
+        }
         Faculty faculty = new Faculty(name, abbreviation, new ArrayList<>(), studyField);
         faculties.add(faculty);
+        logger.log(faculty.getName() + " was created");
     }
 
     public void assignStudentToFaculty(String facultyAbbreviation, Student student) {
         for (Faculty faculty : faculties) {
             if (faculty.getAbbreviation().equalsIgnoreCase(facultyAbbreviation)) {
-                faculty.addStudent(student);
+                if (!faculty.addStudent(student)){
+                    System.out.println("Student with email " + student.getEmail() + " already exists");
+                    logger.log("Student with email " + student.getEmail() + " already exists");
+                    return;
+                }
+                System.out.print("Student added to the faculty successfully");
+                logger.log(student.getLastName() + " " + student.getFirstName() + " was added to the faculty with abbreviation " + facultyAbbreviation);
                 return;
             }
         }
         System.out.println("Faculty not found.");
+        logger.log("Faculty with abbreviation " + facultyAbbreviation + " wasn't found");
     }
 
     public void graduateStudent(String facultyAbbreviation, String email) {
         for (Faculty faculty : faculties) {
             if (faculty.getAbbreviation().equalsIgnoreCase(facultyAbbreviation)) {
-                faculty.graduateStudent(email);
+                faculty.graduateStudent(email, logger);
+                return;
             }
         }
         System.out.println("Faculty not found.");
+        logger.log("Faculty with abbreviation " + facultyAbbreviation + " wasn't found");
     }
 
     public void displayCurrentEnrolledStudents(String facultyAbbreviation) {
