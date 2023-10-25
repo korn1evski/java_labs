@@ -1,0 +1,6 @@
+bogdan,corn,corn1@gmail.com,2002,2.02.2002,faf
+bogdan,corn,corn2@gmail.com,2002,2.02.2002,faf
+ion,vlad,corn3@gmail.com,2002,2.02.2002,faf
+luli,cucu,corn4@gmail.com,2002,2.02.2002,faf
+uuu,sadsad,corn5@gmail.com,2002,2.02.2002,faf
+vlad,ion,corn6@gmail.com,2023,2.02.2002,faf

@@ -125,6 +125,52 @@ public class UniProgram {
         System.out.println("Faculty not found.");
     }
 
+    public void batchStudents(){
+        String tempFilePath = "src" + File.separator + "lab1" + File.separator + "files" + File.separator + "batch_students.txt";
+        try (BufferedReader br = new BufferedReader(new FileReader(tempFilePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] fields = line.split(",");
+
+                if (fields.length == 6) {
+                    String firstName = fields[0].trim();
+                    String lastName = fields[1].trim();
+                    String email = fields[2].trim();
+                    int enrollmentDate = Integer.parseInt(fields[3].trim());
+                    String[] dateParts = fields[4].trim().split("\\.");
+                    String faculty = fields[5].trim();
+
+                    Student student = new Student(firstName, lastName, email, enrollmentDate, Integer.parseInt(dateParts[2]), Integer.parseInt(dateParts[1]), Integer.parseInt(dateParts[0]));
+                    assignStudentToFaculty(faculty, student);
+                } else {
+                    System.err.println("Invalid data in the line: " + line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void batchGraduates(){
+        String tempFilePath = "src" + File.separator + "lab1" + File.separator + "files" + File.separator + "batch_graduates.txt";
+        try (BufferedReader br = new BufferedReader(new FileReader(tempFilePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] fields = line.split(",");
+
+                if (fields.length == 2) {
+                    String email = fields[0].trim();
+                    String faculty = fields[1].trim();
+                    graduateStudent(faculty, email);
+                } else {
+                    System.err.println("Invalid data in the line: " + line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void displayGraduates(String facultyAbbreviation) {
         for (Faculty faculty : faculties) {
             if (faculty.getAbbreviation().equalsIgnoreCase(facultyAbbreviation)) {

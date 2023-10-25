@@ -27,7 +27,9 @@ public class Main {
             System.out.println("7. Search what faculty a student belongs to by a unique identifier (for example by email or a unique ID).");
             System.out.println("8. Display University faculties");
             System.out.println("9. Display all faculties belonging to a field. (Ex. FOOD_TECHNOLOGY)");
-            System.out.println("10. Exit");
+            System.out.println("10. Batch students");
+            System.out.println("11. Batch graduates");
+            System.out.println("12. Exit");
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
@@ -115,6 +117,12 @@ public class Main {
                     uniProgram.facultiesBelongingToField(studyFieldStrTemp);
                     break;
                 case 10:
+                    uniProgram.batchStudents();
+                    break;
+                case 11:
+                    uniProgram.batchGraduates();
+                    break;
+                case 12:
                     System.out.println("Exiting program.");
                     System.exit(0);
                 default:

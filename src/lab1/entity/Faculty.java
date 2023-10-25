@@ -3,6 +3,9 @@ package lab1.entity;
 import lab1.enums.StudyField;
 import lab1.loggers.CustomLogger;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -59,6 +62,7 @@ public class Faculty implements Serializable {
         students.add(student);
         return true;
     }
+
 
     public void removeStudent(Student student) {
         students.remove(student);

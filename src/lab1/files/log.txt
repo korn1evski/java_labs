@@ -1,6 +1,6 @@
 [2023-10-04 19:17:47] faf was created
 [2023-10-04 19:20:58] Faculty with abbreviation fsdf wasn't found
-[2023-10-04 19:27:51] bdg corn was added to the faculty with abbreviation faf
+t[2023-10-04 19:27:51] bdg corn was added to the faculty with abbreviation faf
 [2023-10-04 19:29:07] fdsafd dsf was added to the faculty with abbreviation faf
 [2023-10-04 19:32:29] Faculty with abbreviation sdfsdfdsf wasn't found
 [2023-10-04 19:32:47] bdg corn is not graduate of faf
@@ -31,3 +31,55 @@
 [2023-10-04 21:19:37] Faculty with abbreviation faf wasn't found
 [2023-10-04 21:20:07] faf was created
 [2023-10-04 21:20:31] corn bogdan was added to the faculty with abbreviation faf
+[2023-10-04 21:38:37] corn bogdik was added to the faculty with abbreviation faf
+[2023-10-09 14:12:17] some was created
+[2023-10-09 14:16:31] Faculty with name faf was already created
+[2023-10-09 14:16:53] fcim was created
+[2023-10-09 14:18:10] bogdan corn was added to the faculty with abbreviation faf
+[2023-10-09 14:19:42] bogdan corn is not graduate of faf
+[2023-10-09 14:43:28] corn bogdan was added to the faculty with abbreviation faf
+[2023-10-09 14:44:03] Student with email corn1@gmail.com already exists
+[2023-10-09 14:44:40] Student with email corn1@gmail.com already exists
+[2023-10-09 14:44:40] corn bogdan was added to the faculty with abbreviation faf
+[2023-10-09 14:52:58] Faculty with abbreviation corn1@gmail.com wasn't found
+[2023-10-09 14:53:50] corn bogdan is not graduate of faf
+[2023-10-09 14:55:05] Student with email corn1@gmail.com already exists
+[2023-10-09 14:55:05] Student with email corn2@gmail.com already exists
+[2023-10-09 14:55:05] vlad ion was added to the faculty with abbreviation faf
+[2023-10-09 14:55:11] corn bogdan is not graduate of faf
+[2023-10-09 14:55:11] vlad ion is not graduate of faf
+[2023-10-09 15:00:55] Student with email corn1@gmail.com already exists
+[2023-10-09 15:00:55] Student with email corn2@gmail.com already exists
+[2023-10-09 15:00:55] Student with email corn3@gmail.com already exists
+[2023-10-09 15:00:55] cucu luli was added to the faculty with abbreviation faf
+[2023-10-09 15:01:06] corn bogdan is not graduate of faf
+[2023-10-09 15:01:06] vlad ion is not graduate of faf
+[2023-10-09 15:02:25] corn bogdan is not graduate of faf
+[2023-10-09 15:02:25] vlad ion is not graduate of faf
+[2023-10-09 15:03:21] Student with email corn1@gmail.com already exists
+[2023-10-09 15:03:21] Student with email corn2@gmail.com already exists
+[2023-10-09 15:03:21] Student with email corn3@gmail.com already exists
+[2023-10-09 15:03:21] Student with email corn4@gmail.com already exists
+[2023-10-09 15:03:25] corn bogdan is not graduate of faf
+[2023-10-09 15:03:25] vlad ion is not graduate of faf
+[2023-10-09 15:03:25] cucu luli is not graduate of faf
+[2023-10-09 15:07:51] Student with email corn1@gmail.com already exists
+[2023-10-09 15:07:51] Student with email corn2@gmail.com already exists
+[2023-10-09 15:07:51] Student with email corn3@gmail.com already exists
+[2023-10-09 15:07:51] Student with email corn4@gmail.com already exists
+[2023-10-09 15:07:51] sadsad uuu was added to the faculty with abbreviation faf
+[2023-10-09 15:08:39] corn bogdan is not graduate of faf
+[2023-10-09 15:08:39] vlad ion is not graduate of faf
+[2023-10-09 15:08:39] cucu luli is not graduate of faf
+[2023-10-09 15:08:39] sadsad uuu is not graduate of faf
+[2023-10-25 19:03:59] Student with email corn1@gmail.com already exists
+[2023-10-25 19:03:59] Student with email corn2@gmail.com already exists
+[2023-10-25 19:03:59] Student with email corn3@gmail.com already exists
+[2023-10-25 19:03:59] Student with email corn4@gmail.com already exists
+[2023-10-25 19:03:59] Student with email corn5@gmail.com already exists
+[2023-10-25 19:03:59] ion vlad was added to the faculty with abbreviation faf
+[2023-10-25 19:04:03] corn bogdan is not graduate of faf
+[2023-10-25 19:04:03] vlad ion is not graduate of faf
+[2023-10-25 19:04:03] cucu luli is not graduate of faf
+[2023-10-25 19:04:03] sadsad uuu is not graduate of faf
+[2023-10-25 19:04:03] ion vlad is not graduate of faf
