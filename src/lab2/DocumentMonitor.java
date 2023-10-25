@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -24,6 +25,9 @@ class DocumentMonitor {
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
                 if (file.isFile()) {
+                    if (!file.exists())
+                        continue;
+
                     String path = file.getAbsolutePath();
                     String extension = "";
                     int dotIndex = file.getName().lastIndexOf('.');
@@ -67,11 +71,13 @@ class DocumentMonitor {
     }
 
     public void commit() {
+        loadDocuments(folderPath);
         snapshot.takeSnapshot(documents);
         System.out.println("Created Snapshot at: " + LocalDateTime.now());
     }
 
     public void printFileInfo(String fileName) {
+        loadDocuments(folderPath);
         for (Document doc : documents) {
             if (doc.getName().equals(fileName)) {
                 doc.printInfo();
@@ -81,29 +87,56 @@ class DocumentMonitor {
         System.out.println("File not found: " + fileName);
     }
 
-    public void printStatus() {
-        // Refresh the list of documents
-        loadDocuments(folderPath);
+    private Map<String, Instant> loadCurrentFileState() {
+        Map<String, Instant> currentFileState = new HashMap<>();
+        File folder = new File(folderPath);
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    try {
+                        BasicFileAttributes attrs = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+                        currentFileState.put(file.getName(), attrs.lastModifiedTime().toInstant());
+                    } catch (IOException e) {
+                        System.out.println("Error reading file attributes: " + e.getMessage());
+                    }
+                }
+            }
+        }
+        return currentFileState;
+    }
 
+    public void printStatus() {
         if (snapshot.isEmpty()) {
             System.out.println("No snapshot found. Please make your first commit.");
         } else {
-            Set<String> existingFiles = snapshot.getFileNames();
+            Map<String, Instant> currentFileState = loadCurrentFileState();
 
-            // First, print the status of existing files
-            for (Document doc : documents) {
-                if (existingFiles.contains(doc.getName())) {
-                    snapshot.printFileStatus(doc);
+            for (Map.Entry<String, Instant> entry : currentFileState.entrySet()) {
+                String fileName = entry.getKey();
+                Instant lastModifiedTime = entry.getValue();
+
+                if (snapshot.containsFile(fileName)) {
+                    Instant snapshotTime = snapshot.getFileTimestamp(fileName);
+                    if (lastModifiedTime.equals(snapshotTime)) {
+                        System.out.println(fileName + " No Change");
+                    } else {
+                        System.out.println(fileName + " Changed");
+                    }
+                } else {
+                    System.out.println(fileName + " Not in snapshot");
                 }
             }
 
-            // Then, report new files
-            for (Document doc : documents) {
-                if (!existingFiles.contains(doc.getName())) {
-                    System.out.println(doc.getName() + " Not in snapshot");
+            Set<String> filesInLastSnapshot = snapshot.getFilesInLastSnapshot();
+            for (String fileName : filesInLastSnapshot) {
+                if (!currentFileState.containsKey(fileName)) {
+                    System.out.println(fileName + " Deleted");
                 }
             }
         }
     }
+
+
 
 }

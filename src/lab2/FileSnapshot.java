@@ -1,4 +1,5 @@
 package lab2;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
@@ -7,18 +8,26 @@ import java.util.*;
 
 class FileSnapshot {
     private Map<String, Instant> fileTimestamps = new HashMap<>();
+    private Set<String> filesInLastSnapshot = new HashSet<>();
 
     public void takeSnapshot(List<Document> documents) {
         fileTimestamps.clear();
+        Set<String> currentFiles = new HashSet<>();
         for (Document doc : documents) {
             try {
                 BasicFileAttributes attrs = Files.readAttributes(doc.file.toPath(), BasicFileAttributes.class);
                 fileTimestamps.put(doc.getName(), attrs.lastModifiedTime().toInstant());
+                currentFiles.add(doc.getName());
             } catch (IOException e) {
                 System.out.println("Error reading file attributes: " + e.getMessage());
             }
         }
+        filesInLastSnapshot = new HashSet<>(currentFiles);
         saveSnapshotToFile();
+    }
+
+    public Instant getFileTimestamp(String fileName) {
+        return fileTimestamps.get(fileName);
     }
 
 
@@ -49,7 +58,17 @@ class FileSnapshot {
             } else {
                 System.out.println(fileName + " Changed");
             }
+        } else {
+            if (filesInLastSnapshot.contains(fileName)) {
+                System.out.println(fileName + " Deleted");
+            } else {
+                System.out.println(fileName + " Not in snapshot");
+            }
         }
+    }
+
+    public Set<String> getFilesInLastSnapshot() {
+        return filesInLastSnapshot;
     }
 
     public void loadSnapshotFromFile() {
@@ -63,6 +82,7 @@ class FileSnapshot {
                         String fileName = parts[0];
                         Instant timestamp = Instant.parse(parts[1]);
                         fileTimestamps.put(fileName, timestamp);
+                        filesInLastSnapshot.add(fileName);
                     }
                 }
             } catch (IOException e) {
@@ -71,16 +91,17 @@ class FileSnapshot {
         }
     }
 
+
     public void printStatus(List<Document> documents) {
+        Set<String> currentFiles = new HashSet<>();
         for (Document doc : documents) {
-            if (fileTimestamps.containsKey(doc.getName())) {
-                if (doc.hasChangedSince(fileTimestamps.get(doc.getName()))) {
-                    System.out.println(doc.getName() + " Changed");
-                } else {
-                    System.out.println(doc.getName() + " No Change");
-                }
-            } else {
-                System.out.println(doc.getName() + " Not in snapshot");
+            currentFiles.add(doc.getName());
+            printFileStatus(doc);
+        }
+
+        for (String fileName : filesInLastSnapshot) {
+            if (!currentFiles.contains(fileName)) {
+                System.out.println(fileName + " Deleted");
             }
         }
     }
