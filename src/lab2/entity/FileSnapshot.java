@@ -1,4 +1,6 @@
-package lab2;
+package lab2.entity;
+import lab2.entity.Document;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -6,9 +8,10 @@ import java.nio.file.attribute.*;
 import java.time.Instant;
 import java.util.*;
 
-class FileSnapshot {
+public class FileSnapshot {
     private Map<String, Instant> fileTimestamps = new HashMap<>();
     private Set<String> filesInLastSnapshot = new HashSet<>();
+    private String snapshotPath = "src" + File.separator + "lab2" + File.separator + "db" + File.separator + "snapshot.txt";
 
     public void takeSnapshot(List<Document> documents) {
         fileTimestamps.clear();
@@ -37,14 +40,10 @@ class FileSnapshot {
             for (Map.Entry<String, Instant> entry : fileTimestamps.entrySet()) {
                 lines.add(entry.getKey() + "," + entry.getValue().toString());
             }
-            Files.write(Paths.get("snapshot.txt"), lines);
+            Files.write(Paths.get(snapshotPath), lines);
         } catch (IOException e) {
             System.out.println("Error saving snapshot to file: " + e.getMessage());
         }
-    }
-
-    public Set<String> getFileNames() {
-        return new HashSet<>(fileTimestamps.keySet());
     }
 
     public void printFileStatus(Document doc) {
@@ -72,7 +71,7 @@ class FileSnapshot {
     }
 
     public void loadSnapshotFromFile() {
-        Path filePath = Paths.get("snapshot.txt");
+        Path filePath = Paths.get(snapshotPath);
         if (Files.exists(filePath)) {
             try {
                 List<String> lines = Files.readAllLines(filePath);
@@ -91,20 +90,6 @@ class FileSnapshot {
         }
     }
 
-
-    public void printStatus(List<Document> documents) {
-        Set<String> currentFiles = new HashSet<>();
-        for (Document doc : documents) {
-            currentFiles.add(doc.getName());
-            printFileStatus(doc);
-        }
-
-        for (String fileName : filesInLastSnapshot) {
-            if (!currentFiles.contains(fileName)) {
-                System.out.println(fileName + " Deleted");
-            }
-        }
-    }
     public boolean isEmpty() {
         return fileTimestamps.isEmpty();
     }

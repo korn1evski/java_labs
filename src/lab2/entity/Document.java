@@ -1,4 +1,4 @@
-package lab2;
+package lab2.entity;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -6,7 +6,7 @@ import java.nio.file.attribute.*;
 import java.time.format.DateTimeFormatter;
 import java.time.*;
 
-abstract class Document {
+public abstract class Document {
     protected String name;
     protected String extension;
     protected File file;
@@ -36,26 +36,11 @@ abstract class Document {
         return name;
     }
 
-    public String getExtension() {
-        return extension;
-    }
-
     public String getPrettyExtension() {
         return extension.toUpperCase();
     }
 
     public abstract void printInfo();
-
-    public boolean hasChangedSince(Instant snapshotTime) {
-        try {
-            BasicFileAttributes attrs = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-            Instant lastModifiedTime = attrs.lastModifiedTime().toInstant();
-            return lastModifiedTime.isAfter(snapshotTime);
-        } catch (IOException e) {
-            System.out.println("Error reading file attributes: " + e.getMessage());
-            return false;
-        }
-    }
 
     protected String formatDateTime(FileTime fileTime) {
         Instant instant = fileTime.toInstant();

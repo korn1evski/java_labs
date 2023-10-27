@@ -1,11 +1,13 @@
-package lab2;
+package lab2.entity;
+
+import lab2.entity.Document;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.util.regex.*;
 
-class ProgramDocument extends Document {
+public class ProgramDocument extends Document {
     public ProgramDocument(String path) {
         super(path);
     }

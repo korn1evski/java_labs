@@ -1,4 +1,10 @@
 package lab2;
+import lab2.entity.Document;
+import lab2.entity.FileSnapshot;
+import lab2.entity.ImageDocument;
+import lab2.entity.ProgramDocument;
+import lab2.entity.TextDocument;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -6,16 +12,26 @@ import java.nio.file.attribute.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.*;
 
 class DocumentMonitor {
     private FileSnapshot snapshot = new FileSnapshot();
     private List<Document> documents = new ArrayList<>();
+    private Map<String, Instant> lastFileState = new HashMap<>();
+    private Set<String> lastSeenFiles = new HashSet<>();
     private String folderPath;
 
     public DocumentMonitor(String folderPath) {
         this.folderPath = folderPath;
         loadDocuments(folderPath);
         snapshot.loadSnapshotFromFile();
+        lastFileState = loadCurrentFileState();
+        lastSeenFiles = new HashSet<>(lastFileState.keySet());
+    }
+
+    public void startMonitoring() {
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(this::detectChanges, 0, 5, TimeUnit.SECONDS);
     }
 
     private void loadDocuments(String folderPath) {
@@ -137,6 +153,29 @@ class DocumentMonitor {
         }
     }
 
+    private void detectChanges() {
+        Map<String, Instant> currentFileState = loadCurrentFileState();
+        Set<String> currentFiles = new HashSet<>(currentFileState.keySet());
 
+        for (Map.Entry<String, Instant> entry : currentFileState.entrySet()) {
+            String fileName = entry.getKey();
+            Instant lastModifiedTime = entry.getValue();
+
+            if (!lastFileState.containsKey(fileName)) {
+                System.out.println(fileName + " Created");
+            } else if (!lastModifiedTime.equals(lastFileState.get(fileName))) {
+                System.out.println(fileName + " Changed");
+            }
+        }
+
+        for (String fileName : lastSeenFiles) {
+            if (!currentFiles.contains(fileName)) {
+                System.out.println(fileName + " Deleted");
+            }
+        }
+
+        lastFileState = new HashMap<>(currentFileState);
+        lastSeenFiles = new HashSet<>(currentFiles);
+    }
 
 }

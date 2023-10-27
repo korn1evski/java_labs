@@ -3,6 +3,9 @@ class Some {
     public void printSome(){
         System.out.println("Hello");
     }
+    public void printSome2(){
+        System.out.println("Hello2");
+    }
 }
 
 class Iogo{

@@ -8,6 +8,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         final String folderPath = "src" + File.separator + "lab2" + File.separator + "working_folder";
         DocumentMonitor monitor = new DocumentMonitor(folderPath);
+        monitor.startMonitoring();
 
         System.out.println("Document Monitor");
         System.out.println("Available commands:");
