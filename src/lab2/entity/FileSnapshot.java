@@ -46,26 +46,6 @@ public class FileSnapshot {
         }
     }
 
-    public void printFileStatus(Document doc) {
-        String fileName = doc.getName();
-        Instant lastModifiedTime = doc.getLastModifiedTime();
-
-        if (fileTimestamps.containsKey(fileName)) {
-            Instant snapshotTime = fileTimestamps.get(fileName);
-            if (lastModifiedTime.equals(snapshotTime)) {
-                System.out.println(fileName + " No Change");
-            } else {
-                System.out.println(fileName + " Changed");
-            }
-        } else {
-            if (filesInLastSnapshot.contains(fileName)) {
-                System.out.println(fileName + " Deleted");
-            } else {
-                System.out.println(fileName + " Not in snapshot");
-            }
-        }
-    }
-
     public Set<String> getFilesInLastSnapshot() {
         return filesInLastSnapshot;
     }

@@ -22,16 +22,6 @@ public abstract class Document {
         }
     }
 
-    public Instant getLastModifiedTime() {
-        try {
-            BasicFileAttributes attrs = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-            return attrs.lastModifiedTime().toInstant();
-        } catch (IOException e) {
-            System.out.println("Error reading file attributes: " + e.getMessage());
-            return Instant.EPOCH;  // Return a default value in case of error
-        }
-    }
-
     public String getName() {
         return name;
     }
@@ -41,6 +31,18 @@ public abstract class Document {
     }
 
     public abstract void printInfo();
+
+    public void printGeneralInfo(){
+        System.out.println("File: " + name);
+        System.out.println("Extension: " + getPrettyExtension());
+        try{
+            BasicFileAttributes attrs = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+            System.out.println("Created: " + formatDateTime(attrs.creationTime()));
+            System.out.println("Last Modified: " + formatDateTime(attrs.lastModifiedTime()));
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
 
     protected String formatDateTime(FileTime fileTime) {
         Instant instant = fileTime.toInstant();

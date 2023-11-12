@@ -17,4 +17,8 @@ class Iogo{
     public int printSomeInt(){
         return 1;
     }
+
+    public int printSomeInt2(){
+        return 1;
+    }
 }

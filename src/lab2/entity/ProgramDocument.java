@@ -14,13 +14,8 @@ public class ProgramDocument extends Document {
 
     @Override
     public void printInfo() {
-        System.out.println("File: " + name);
-        System.out.println("Extension: " + getPrettyExtension());
+        super.printGeneralInfo();
         try {
-            BasicFileAttributes attrs = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-            System.out.println("Created: " + formatDateTime(attrs.creationTime()));
-            System.out.println("Last Modified: " + formatDateTime(attrs.lastModifiedTime()));
-
             long lineCount = Files.lines(file.toPath()).count();
             System.out.println("Line Count: " + lineCount);
 
